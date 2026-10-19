@@ -10,21 +10,23 @@
 
 在 DSH 会话里说：
 
-> **「帮我部署 tkdev-env」**（新机器第一次建议说全：`帮我部署 github.com/<你的用户名>/tkdev-env`）
+> **「帮我部署 tkdev-env」**（新机器第一次建议说全：`帮我部署 github.com/Anony13/tkdev-env`）
 
-Agent 会：`git clone/pull` 本仓库 → 装 aoci.exe + dsh-aoci 插件（若缺）→ 把 tkdev 技能部署到当前项目。
+Agent 会：`git clone` 本仓库**直接进项目的 `.tkdev-env\`** → 装 aoci.exe + dsh-aoci 插件（若缺）→ 建 AGENTS.local.md + gitignore。
+
+**没有多余的「工具箱」副本** —— `.tkdev-env\` 就是环境本身（自带 .git，可 pull 更新）。
 
 ### 手动等价命令
 
 ```powershell
-# 1. 拉取仓库（首次 clone，之后 pull）
-git clone https://github.com/<你的用户名>/tkdev-env.git C:\tkdev-env
+# 1. 把环境仓库直接 clone 进当前项目的 .tkdev-env\（每项目一份）
+git clone https://github.com/Anony13/tkdev-env.git .tkdev-env
 
-# 2. 机器级引导（装 aoci.exe + dsh-aoci 插件，一次）
-powershell -NoProfile -ExecutionPolicy Bypass -File C:\tkdev-env\scripts\bootstrap.ps1
+# 2. 机器级引导（装 aoci.exe + dsh-aoci 插件，每台机器一次）
+powershell -NoProfile -ExecutionPolicy Bypass -File .\.tkdev-env\scripts\bootstrap.ps1
 
-# 3. 项目级部署（复制 tkdev 技能到当前项目的 .tkdev-env\，每项目一次）
-powershell -NoProfile -ExecutionPolicy Bypass -File C:\tkdev-env\scripts\deploy.ps1 -Target .
+# 3. 项目级 setup（建 AGENTS.local.md + gitignore）
+powershell -NoProfile -ExecutionPolicy Bypass -File .\.tkdev-env\scripts\deploy.ps1 -Target .
 
 # 4. 绑定代码地图（dsh-aoci）
 #    在 DSH 里说：/aoci <项目路径>
@@ -33,11 +35,12 @@ powershell -NoProfile -ExecutionPolicy Bypass -File C:\tkdev-env\scripts\deploy.
 ## 目录结构
 
 ```
-├── skills/          ← tkdev 19 个技能（部署到项目 .tkdev-env\skills\）
-├── dsh-aoci/        ← vendored AOCI 插件源码 + 构建产物 .tgz
+（本仓库被 clone 进每个项目的 .tkdev-env\，成为那个项目的环境）
+├── skills/          ← tkdev 19 个技能
+├── dsh-aoci/        ← vendored AOCI 插件源码 + 构建产物 dist/*.tgz
 ├── scripts/
 │   ├── bootstrap.ps1   ← 机器级引导（装 aoci.exe + 插件）
-│   ├── deploy.ps1      ← 项目级部署（复制技能到 .tkdev-env\）
+│   ├── deploy.ps1      ← 项目级 setup（建 AGENTS.local.md + gitignore）
 │   └── install-aoci.ps1← 下载 + 校验 aoci.exe
 ├── docs/            ← 使用说明
 ├── AGENTS.md        ← tkdev 路由表
@@ -51,7 +54,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File C:\tkdev-env\scripts\deploy.
 - 每次迭代/改动 = `git commit`；历史可回溯。
 - 回退 = `git checkout <commit/tag>`。
 - 换方案 = 开 `git branch`，主线继续迭代。
-- 新机器/新项目永远拉同一版本：`git pull`。
+- 某项目里的环境更新 = 在 `.tkdev-env\` 里 `git pull`。
 
 ## 许可
 

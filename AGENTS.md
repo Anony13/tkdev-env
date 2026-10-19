@@ -101,9 +101,9 @@ To start a NEW project:
 
    > **「帮我部署 tkdev-env」** — or "部署 tkdev-env" / "帮我部署环境"
 
-   The agent clones/pulls the repo, runs `bootstrap.ps1` (installs aoci.exe +
-   dsh-aoci plugin, once per machine), then `deploy.ps1` (copies the suite into
-   the project's `.tkdev-env\`). The project root stays clean.
+   The agent `git clone`s the repo **directly into the project's `.tkdev-env\`**
+   (no separate toolbox copy), then runs `bootstrap.ps1` (aoci.exe + dsh-aoci
+   plugin, once per machine) and `deploy.ps1` (AGENTS.local.md + gitignore).
 
 2. Bind the code map: say `/aoci <project path>` (dsh-aoci), then
    「请为这个项目建立 AOCI 索引」.
@@ -111,9 +111,9 @@ To start a NEW project:
 Manual equivalent (if the agent needs the exact steps):
 
 ```powershell
-git clone https://github.com/Anony13/tkdev-env.git C:\tkdev-env   # first time; then git pull
-powershell -NoProfile -ExecutionPolicy Bypass -File C:\tkdev-env\scripts\bootstrap.ps1
-powershell -NoProfile -ExecutionPolicy Bypass -File C:\tkdev-env\scripts\deploy.ps1 -Target .
+git clone https://github.com/Anony13/tkdev-env.git .tkdev-env   # clone into the project
+powershell -NoProfile -ExecutionPolicy Bypass -File .\.tkdev-env\scripts\bootstrap.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File .\.tkdev-env\scripts\deploy.ps1 -Target .
 ```
 
 Full guide: `README.md`.
