@@ -1,0 +1,240 @@
+{
+  "name": "tkdev",
+  "owner": {
+    "name": "tyking"
+  },
+  "metadata": {
+    "description": "Custom-software-development & delivery agent skills — intake, design, build, test, quality, debug, docs, CI/CD, delivery, support, and change. Adapted from show-me-the-money for DSH + DeepSeek.",
+    "version": "2.8.0"
+  },
+  "plugins": [
+    {
+      "name": "tkdev",
+      "description": "Main entry point for the Tkdev custom-software-development suite. Orchestrates the full engagement lifecycle: intake (clarify client requirements + quote), build (design/implement/test/quality/debug/docs/ops), deliver + acceptance, post-delivery support, and change requests / second-round delivery. Use when the user says 'tkdev', '接单', '新客户', '客户要做一个', '报价', '需求', '交付', '客户报障', '客户要改', or any development task. Includes a beginner tutorial via '/tkdev tutorial' / '/tkdev 新手'.",
+      "source": "./",
+      "strict": false,
+      "version": "1.0.0",
+      "category": "core",
+      "keywords": [],
+      "skills": [
+        "./skills/tkdev"
+      ]
+    },
+    {
+      "name": "tkdev-change",
+      "description": "Handle a client's change request (new or modified requirement) on a delivered system: capture it, assess the impact, re-estimate and quote, implement, test, and re-deliver. Use when the user says '客户要改', '新增需求', '修改', '变更', '加个功能', 'change', or the client asks for something new after delivery.",
+      "source": "./",
+      "strict": false,
+      "version": "1.0.0",
+      "category": "core",
+      "keywords": [],
+      "skills": [
+        "./skills/tkdev-change"
+      ]
+    },
+    {
+      "name": "tkdev-debug",
+      "description": "Root-cause debugging when code is broken, tests fail, performance degrades, or production breaks. Uses divide-and-conquer, boundary isolation, minimal reproducer, and hypothesis-then-test instead of guessing. Use when the user says \\\"it's broken\\\", 'why does this fail', 'debug this', '报错', '排查', '定位 bug', '性能差', or describes a failing test, 500, flaky CI, or slow query.",
+      "source": "./",
+      "strict": false,
+      "version": "1.0.0",
+      "category": "core",
+      "keywords": [],
+      "skills": [
+        "./skills/tkdev-debug"
+      ]
+    },
+    {
+      "name": "tkdev-deliver",
+      "description": "Deliver a completed system to the client and get acceptance sign-off. Produces the delivery checklist (source / deployment / docs / accounts), performs the handoff, walks the client through acceptance, and records the accepted state. Use when the user says '交付', '验收', '部署给客户', '交接', 'deliver', 'acceptance', or a build is done and ready to hand over.",
+      "source": "./",
+      "strict": false,
+      "version": "1.0.0",
+      "category": "core",
+      "keywords": [],
+      "skills": [
+        "./skills/tkdev-deliver"
+      ]
+    },
+    {
+      "name": "tkdev-design",
+      "description": "Turn validated requirements into a concrete technical design — architecture, tech-stack selection, system design, data model, API design, and a design document with alternatives and tradeoffs. Runs a requirements deconstruction and risk audit before designing. Use when the user says 'design the architecture', 'system design', 'tech stack', 'API design', '架构', '技术方案', '数据模型', or has requirements ready to turn into a build plan.",
+      "source": "./",
+      "strict": false,
+      "version": "1.0.0",
+      "category": "core",
+      "keywords": [],
+      "skills": [
+        "./skills/tkdev-design"
+      ]
+    },
+    {
+      "name": "tkdev-docs",
+      "description": "Technical writing and documentation — README, architecture decision records (ADRs), API docs, changelogs, release notes, onboarding docs, and runbooks, with an accuracy audit (docs must match actual code/behavior). Use when the user says 'write docs', 'document this', 'README', 'API docs', 'changelog', 'release notes', '写文档', '写 README', or needs to explain the codebase.",
+      "source": "./",
+      "strict": false,
+      "version": "1.0.0",
+      "category": "core",
+      "keywords": [],
+      "skills": [
+        "./skills/tkdev-docs"
+      ]
+    },
+    {
+      "name": "tkdev-implement",
+      "description": "Implement a feature from design to working, tested code — project scaffolding, implementation, integration, and a disciplined ship lifecycle (version, changelog, pre-deploy verification, deploy, post-deploy checks). Use when the user says 'build this', 'implement', 'ship it', '写这个功能', '实现', '部署', '上线', or has a design doc ready to build.",
+      "source": "./",
+      "strict": false,
+      "version": "1.0.0",
+      "category": "core",
+      "keywords": [],
+      "skills": [
+        "./skills/tkdev-implement"
+      ]
+    },
+    {
+      "name": "tkdev-intake",
+      "description": "Take on a new client engagement: clarify what the client actually wants, lock the scope, estimate effort, and produce a quote. Turns a vague ask into a confirmed, quoted requirement the rest of the suite can build against. Use when the user says '客户要做', '接单', '报价', '新客户', '需求', '客户想要', '估个价', 'quote', or brings a new client request.",
+      "source": "./",
+      "strict": false,
+      "version": "1.0.0",
+      "category": "core",
+      "keywords": [],
+      "skills": [
+        "./skills/tkdev-intake"
+      ]
+    },
+    {
+      "name": "tkdev-learn",
+      "description": "Manage atomic project learnings — validated patterns, gotchas, and decisions auto-loaded into every other skill. Use when the user says 'remember this', 'log a learning', '记住这个', '这是个坑', or a reusable pattern/decision just emerged.",
+      "source": "./",
+      "strict": false,
+      "version": "1.0.0",
+      "category": "core",
+      "keywords": [],
+      "skills": [
+        "./skills/tkdev-learn"
+      ]
+    },
+    {
+      "name": "tkdev-ops",
+      "description": "CI/CD, release automation, monitoring, and on-call/incident response — pipelines, health checks, alerts, runbooks, and incident postmortems. Use when the user says 'set up CI', 'automate deployment', 'add monitoring', 'CI/CD', '监控', '告警', '自动化部署', or wants delivery to be repeatable and observable.",
+      "source": "./",
+      "strict": false,
+      "version": "1.0.0",
+      "category": "core",
+      "keywords": [],
+      "skills": [
+        "./skills/tkdev-ops"
+      ]
+    },
+    {
+      "name": "tkdev-quality",
+      "description": "Code and product quality gates for shipping with confidence — code review, static analysis, QA testing, OWASP+STRIDE security audit, performance, and accessibility. Use when the user says 'review my code', 'is this ready to ship', 'check quality', 'security check', '代码审查', '上线前检查', or wants a pre-merge/pre-release assessment.",
+      "source": "./",
+      "strict": false,
+      "version": "1.0.0",
+      "category": "core",
+      "keywords": [],
+      "skills": [
+        "./skills/tkdev-quality"
+      ]
+    },
+    {
+      "name": "tkdev-report",
+      "description": "Merge all saved snapshots into a shareable markdown deliverable — a project report for handoff, review, or future reference. Use when the user says 'package this up', 'make a report', '出报告', '打包', or wants to summarize accumulated state.",
+      "source": "./",
+      "strict": false,
+      "version": "1.0.0",
+      "category": "core",
+      "keywords": [],
+      "skills": [
+        "./skills/tkdev-report"
+      ]
+    },
+    {
+      "name": "tkdev-restore",
+      "description": "Resume from a prior saved state — load the latest (or a specific) snapshot for the current project. Use when starting a new session and the user says 'continue from last time', 'resume', '接着上次', '续上', or 'where did we leave off'.",
+      "source": "./",
+      "strict": false,
+      "version": "1.0.0",
+      "category": "core",
+      "keywords": [],
+      "skills": [
+        "./skills/tkdev-restore"
+      ]
+    },
+    {
+      "name": "tkdev-retro",
+      "description": "Sprint/iteration retrospective — read snapshots, learnings, and skill usage; surface what shipped, what stalled, recurring blockers, and one recommended focus. Use at the end of a sprint/week when the user says 'retro', '复盘', '本周回顾', or 'what did we ship'.",
+      "source": "./",
+      "strict": false,
+      "version": "1.0.0",
+      "category": "core",
+      "keywords": [],
+      "skills": [
+        "./skills/tkdev-retro"
+      ]
+    },
+    {
+      "name": "tkdev-save",
+      "description": "Checkpoint the current project state to disk so future sessions can resume exactly where this one left off — decisions, ruled-out options, open questions, and the next skill. Use when the user says 'save this', 'checkpoint', '记下来', '存档', or has just reached a decision worth persisting.",
+      "source": "./",
+      "strict": false,
+      "version": "1.0.0",
+      "category": "core",
+      "keywords": [],
+      "skills": [
+        "./skills/tkdev-save"
+      ]
+    },
+    {
+      "name": "tkdev-skillify",
+      "description": "Codify a successful workflow from the current conversation into a permanent project-local skill. Use when the user says 'codify this', 'save this workflow', '把这个流程固化', '存成技能', or a repeatable workflow just worked.",
+      "source": "./",
+      "strict": false,
+      "version": "1.0.0",
+      "category": "core",
+      "keywords": [],
+      "skills": [
+        "./skills/tkdev-skillify"
+      ]
+    },
+    {
+      "name": "tkdev-support",
+      "description": "Handle a client bug report end-to-end: capture the ticket, reproduce, find the root cause, fix with a regression test, deploy the fix, and follow up with the client. Use when the user says '客户报障', '出问题了', '报错', '修复', 'bug', '坏了', 'support', or the client reports something broken in the delivered system.",
+      "source": "./",
+      "strict": false,
+      "version": "1.0.0",
+      "category": "core",
+      "keywords": [],
+      "skills": [
+        "./skills/tkdev-support"
+      ]
+    },
+    {
+      "name": "tkdev-test",
+      "description": "Testing strategy and test authoring — unit/integration/e2e test planning, TDD, coverage, fixtures/mocks, and flaky-test triage. Use when the user says 'write tests', 'add test coverage', 'TDD', 'test strategy', '写测试', '加单测', '补测试', '写测试用例', or needs a test plan for a feature or a codebase with low coverage.",
+      "source": "./",
+      "strict": false,
+      "version": "1.0.0",
+      "category": "core",
+      "keywords": [],
+      "skills": [
+        "./skills/tkdev-test"
+      ]
+    },
+    {
+      "name": "tkdev-upgrade",
+      "description": "Update the Tkdev skill suite to the latest version via git (git pull + reinstall). Use when the user says 'upgrade tkdev', 'update skills', '检查更新', '升级', or wants the latest suite.",
+      "source": "./",
+      "strict": false,
+      "version": "1.0.0",
+      "category": "core",
+      "keywords": [],
+      "skills": [
+        "./skills/tkdev-upgrade"
+      ]
+    }
+  ]
+}

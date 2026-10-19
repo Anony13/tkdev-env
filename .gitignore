@@ -1,0 +1,6 @@
+node_modules/
+dsh-aoci/node_modules/
+dsh-aoci/lib/
+dsh-aoci/lib-tmp/
+*.log
+.DS_Store
