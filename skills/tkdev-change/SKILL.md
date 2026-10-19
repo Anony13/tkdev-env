@@ -142,9 +142,9 @@ Run the normal build pipeline, updating the artifacts the change touches:
    re-delivery. Every change gets review before merge (`A-1602`); automate lint +
    type-check + tests and block on red (`A-1603`).
 5. **Re-align the AOCI index** — after the code is stable, run
-   `mcp__aoci__aoci_maintain` (+ `aoci_update_entry`) or `aoci verify`/`check` so
-   the cognition map reflects the change (skip only if the project has no AOCI
-   index). This is a hard gate, not a nice-to-have.
+   `aoci_cognition` `action="maintain"` (+ `action="update_entry"`) or
+   `aoci_verify`/`aoci_check` so the cognition map reflects the change (skip only
+   if the project has no AOCI index). This is a hard gate, not a nice-to-have.
 
 Keep the change isolated so it can be rolled back on its own (`A-1604`: ship
 small).

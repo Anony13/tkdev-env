@@ -93,31 +93,30 @@ skill references another skill, read that file too.
 
 ## New-project bootstrap (tkdev + aoci)
 
-The environment ships as a self-contained bundle:
-**`D:\桌面\letian_V2\dist\tkdev-aoci-bundle.zip`** — contains `skills/`,
-`.claude-plugin/`, `AGENTS.md`, `docs/`, and `deploy.ps1`.
+The environment lives in a GitHub repo: **`github.com/Anony13/tkdev-env`**
+(contains `skills/`, the vendored `dsh-aoci/` plugin, and `scripts/`).
 
 To start a NEW project:
-1. Copy the bundle zip into the new project directory.
-2. In a DSH session there, say:
+1. In a DSH session, say:
 
-   > **「将这个包解压并部署到本项目」** — or `/tkdev-init` / "解压并部署" / "部署 tkdev+aoci"
+   > **「帮我部署 tkdev-env」** — or "部署 tkdev-env" / "帮我部署环境"
 
-   The agent extracts the zip into **`.tkdev-env\`**, then runs
-   `.tkdev-env\deploy.ps1` (gitignores `.tkdev-env\`, runs aoci `init` + `scan`
-   on the project root, and appends the DSH MCP config). The project root stays
-   clean — the environment is separated into a gitignored subfolder.
+   The agent clones/pulls the repo, runs `bootstrap.ps1` (installs aoci.exe +
+   dsh-aoci plugin, once per machine), then `deploy.ps1` (copies the suite into
+   the project's `.tkdev-env\`). The project root stays clean.
 
-3. Restart DSH → tell the agent 「请为这个项目建立 AOCI 索引」.
+2. Bind the code map: say `/aoci <project path>` (dsh-aoci), then
+   「请为这个项目建立 AOCI 索引」.
 
 Manual equivalent (if the agent needs the exact steps):
 
 ```powershell
-Expand-Archive .\tkdev-aoci-bundle.zip -DestinationPath .\.tkdev-env -Force
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\.tkdev-env\deploy.ps1 -Target .
+git clone https://github.com/Anony13/tkdev-env.git C:\tkdev-env   # first time; then git pull
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\tkdev-env\scripts\bootstrap.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\tkdev-env\scripts\deploy.ps1 -Target .
 ```
 
-Full guide: `.tkdev-env\docs\aoci-environment.md`.
+Full guide: `README.md`.
 
 ## Updating
 
@@ -125,8 +124,6 @@ Full guide: `.tkdev-env\docs\aoci-environment.md`.
 git pull
 ```
 
-The suite is project-local; `git pull` is the only update step. Do **NOT** run
-`node install.js` — it copies to the global `~/.claude/skills/`, which is not how
-this suite is deployed. After `git pull`, re-package the bundle so new projects
-get the latest suite (recreate `dist/tkdev-aoci-bundle.zip` from `skills/`,
-`.claude-plugin/`, `AGENTS.md`, `docs/`, and `scripts/deploy.ps1`).
+The environment lives in the GitHub repo `github.com/Anony13/tkdev-env`; `git pull`
+gets the latest. Do **NOT** run `node install.js` — it copies to the global
+`~/.claude/skills/`, which is not how this suite is deployed.

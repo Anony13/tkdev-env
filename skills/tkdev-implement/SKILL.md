@@ -374,7 +374,7 @@ When payments *are* in scope, treat them like any other feature:
 | Post-deploy canary checks healthy | ☐ |
 | No client identity fields, no global paths, no business jargon | ☐ |
 | All cross-references use `/tkdev-*` names | ☐ |
-| AOCI index re-aligned — ran `mcp__aoci__aoci_maintain` (+ `aoci_update_entry`) or `aoci verify`/`check`; skip only if the project has no AOCI index | ☐ |
+| AOCI index re-aligned — ran `aoci_cognition` `action="maintain"` (+ `action="update_entry"`) or `aoci_verify`/`aoci_check`; skip only if the project has no AOCI index | ☐ |
 
 ---
 

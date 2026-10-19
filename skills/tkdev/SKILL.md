@@ -335,10 +335,12 @@ is the "global vision" step; it matters most for `/tkdev-implement`,
 
 Detect and load it (either surface is enough):
 
-1. **MCP tools (preferred)** — if `mcp__aoci__aoci_overview` is in the tool list,
-   call it and follow `next_cursor` to `completed=true`. This delivers the full
-   governed cognition. (Tool names are `mcp__<serverName>__<tool>`; if the server
-   was configured with a different `serverName`, match that prefix.)
+1. **dsh-aoci tools (preferred)** — if `aoci_cognition` (or the `/aoci` slash
+   command) is available, load the map:
+   - If the repo is not yet bound, run `/aoci <repo path>` first (or
+     `aoci_use <repo path>`).
+   - Then call `aoci_cognition` with `action="overview"` and follow `next_cursor`
+     to `completed=true`. This delivers the full governed cognition.
 2. **Plain-text index (fallback)** — else if `aoci.txt` exists in the repo root,
    read `aoci.txt` (Root manifest), then `aoci.code.txt` (the code cognition map),
    then `aoci.database.txt` (table cognition, optional). Same map in file form.
@@ -348,13 +350,13 @@ If neither is present, skip silently (the project has not been AOCI-indexed yet)
 **Surface AOCI explicitly to the user** — never keep it silent:
 - On load: say one line, e.g. `🔍 AOCI：已加载全局认知（共 N 条）`.
 - On re-align: say one line, e.g. `🔄 AOCI：地图已重对齐（更新 N 条）`.
-- Name the tool used (`mcp__aoci__aoci_overview` / `aoci_maintain` / `aoci verify`)
+- Name the tool used (`/aoci` / `aoci_cognition` / `aoci_verify` / `aoci_check`)
   so the user can see which command actually ran.
 
 Treat the index as a **map/prior, not a substitute** for reading actual source
 before a concrete change. After code changes the cognition may drift; before
-checkpointing, re-align it via `mcp__aoci__aoci_maintain` (MCP) or
-`aoci verify` / `aoci check` (CLI, through `pwsh`), whichever is available.
+checkpointing, re-align it via `aoci_cognition` `action="maintain"` (+
+`action="update_entry"`) and `aoci_verify` / `aoci_check`, whichever is available.
 
 ---
 
