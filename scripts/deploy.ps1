@@ -14,15 +14,12 @@ if (-not (Test-Path $Target)) { Write-Host "[x] target not found: $Target" -Fore
 $Target = (Resolve-Path $Target).Path
 Write-Host "=== setup project: $Target ===" -ForegroundColor Cyan
 
-# ---------- 1. create AGENTS.local.md pointer (local overlay, not the client's AGENTS.md) ----------
+# ---------- 1. install the tkdev routing as AGENTS.local.md (full routing, not a weak pointer) ----------
+$template = Join-Path (Split-Path $PSScriptRoot -Parent) "AGENTS.local.template.md"
 $localPointer = Join-Path $Target "AGENTS.local.md"
-if (-not (Test-Path $localPointer)) {
-  $ptr = "# Local dev workflow pointer (machine-local, do not commit)`n# This project uses the tkdev suite in .tkdev-env\`n# When the user says /tkdev or a dev task, read .tkdev-env\AGENTS.md (routing),`n# then .tkdev-env\skills\<name>\SKILL.md.`n# Code map (AOCI): use /aoci <path> to bind this repo, then aoci_* tools.`n"
-  Set-Content -Path $localPointer -Value $ptr -Encoding UTF8
-  Write-Host "[ok] AGENTS.local.md created." -ForegroundColor Green
-} else {
-  Write-Host "[ok] AGENTS.local.md already exists - skip." -ForegroundColor Green
-}
+if (-not (Test-Path $template)) { Write-Host "[x] template not found: $template" -ForegroundColor Red; exit 1 }
+Copy-Item $template $localPointer -Force
+Write-Host "[ok] AGENTS.local.md installed (full routing table)." -ForegroundColor Green
 
 # ---------- 2. gitignore .tkdev-env + AGENTS.local.md ----------
 $gitignore = Join-Path $Target ".gitignore"
