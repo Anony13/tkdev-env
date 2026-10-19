@@ -1,8 +1,8 @@
 {
   "id": "dsh-external/dsh-aoci",
-  "version": "0.2.4",
+  "version": "0.2.6",
   "main": "./lib/index.mjs",
-  "description": "AOCI 认知层：为 DSH 提供全仓库代码/数据库认知地图（MCP 桥接 + 索引治理 + 只读面板）",
+  "description": "AOCI 璁ょ煡灞傦細涓?DSH 鎻愪緵鍏ㄤ粨搴撲唬鐮?鏁版嵁搴撹鐭ュ湴鍥撅紙MCP 妗ユ帴 + 绱㈠紩娌荤悊 + 鍙闈㈡澘锛?,
   "engines": { "dsh": ">=0.2.0-rc.2" },
   "contributes": {
     "tools": [],

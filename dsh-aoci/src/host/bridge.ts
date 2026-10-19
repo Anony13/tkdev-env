@@ -4,7 +4,7 @@
 // 另提供 ensure/call 供静态工具 aoci_cognition 懒绑定调用（保证 PTC 模式也可用）。
 import { Client } from '@modelcontextprotocol/sdk/client/index.js'
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js'
-import { defineTool } from '@deepseek-ai/dsh-tools'
+declare const harness: { defineTool(options: any): any }
 import type { Context } from '@deepseek-ai/cordis'
 import { AOCI_TOOLS } from './types'
 import { slugFromRoot, mcpServerName, sanitizedEnv, compactToolResult } from './util'
@@ -126,7 +126,7 @@ export class AociBridge {
     const disposers: Array<() => void> = []
     const registerDirect = (raw: string) => {
       const name = 'mcp__' + namespace + '__' + raw
-      const def = defineTool({
+      const def = harness.defineTool({
         name,
         description: directDescription(raw),
         parameters: { input: { type: 'json', description: '调用参数（JSON 对象，按工具 schema 传入）' } },
@@ -155,7 +155,7 @@ export class AociBridge {
     if (this.surface === 'compact') {
       try {
         const callName = 'mcp__' + namespace + '__aoci_call'
-        const def = defineTool({
+        const def = harness.defineTool({
           name: callName,
           description: 'AOCI 任意认知工具聚合入口（项目 ' + slug + '）。tool 取九工具之一：' + AOCI_TOOLS.join(' / ') + '；args 为对应工具参数 JSON。update_entry 前请先用 aoci_cognition action="validate" 预校验；Volumes v1 只用 maintain/update_entry，禁用 legacy index 命令。',
           parameters: {

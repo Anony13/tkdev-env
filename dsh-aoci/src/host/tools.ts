@@ -1,7 +1,8 @@
 // 模型侧确定性工具（设计文档 4.10）：状态/扫描/验证/检查/刷新/审计 —— 零模型语义
 // toolSurface=compact 时合并查询类工具并省略低频工具（省 token）；full 暴露全量。
 // 语义九工具仍走 MCP 通道（mcp__aoci-<slug>__* 或聚合 aoci_call）。
-import { defineTool, type ToolDefinition } from '@deepseek-ai/dsh-tools'
+import type { ToolDefinition } from '@deepseek-ai/dsh-tools'
+declare const harness: { defineTool(options: any): ToolDefinition }
 import { promises as fsP, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import type { Context } from '@deepseek-ai/cordis'
@@ -57,7 +58,7 @@ export function installTools(ctx: Context, deps: ToolDeps) {
   }
 
   // ---------- 状态（含二进制校验/漂移/工具面估算） ----------
-  register(defineTool({
+  register(harness.defineTool({
     name: 'aoci_status',
     description: '查看 AOCI 项目状态：aligned/条目/基线/MCP、git 漂移、二进制校验、工具面。',
     parameters: {},
@@ -84,7 +85,7 @@ export function installTools(ctx: Context, deps: ToolDeps) {
   }))
 
   // ---------- 验证 / 检查（成功时记录 lastHead 与审计事件） ----------
-  register(defineTool({
+  register(harness.defineTool({
     name: 'aoci_verify',
     description: '运行 aoci verify --json（只读治理门）；成功后记录维护基线 HEAD。',
     parameters: { project: { type: 'string', required: true, description: '项目 slug' } },
@@ -110,7 +111,7 @@ export function installTools(ctx: Context, deps: ToolDeps) {
     },
   }))
 
-  register(defineTool({
+  register(harness.defineTool({
     name: 'aoci_check',
     description: '运行 aoci check --json（聚合治理门）。',
     parameters: { project: { type: 'string', required: true, description: '项目 slug' } },
@@ -131,7 +132,7 @@ export function installTools(ctx: Context, deps: ToolDeps) {
   }))
 
   // ---------- 自主绑定（含只读模式/二进制校验/审计/HEAD 记录） ----------
-  register(defineTool({
+  register(harness.defineTool({
     name: 'aoci_use',
     description: '为指定 Git 仓库建立/复用 AOCI 认知：校验路径与二进制 → init/scan（按需）→ 绑定 MCP 桥。支持 locale/scope/agent/db/skipScan。',
     parameters: {
@@ -206,7 +207,7 @@ export function installTools(ctx: Context, deps: ToolDeps) {
   }))
 
   // ---------- 静态认知入口（PTC/native 均可用；懒绑定） ----------
-  register(defineTool({
+  register(harness.defineTool({
     name: 'aoci_cognition',
     description: '静态 AOCI 认知入口（任何工具模式可用）：action=rules|overview|get_entries|search|maintain|update_entry|remove_entry|header|report；project 或 path 指定仓库，缺省自动定位并懒绑定。',
     parameters: {
@@ -291,7 +292,7 @@ export function installTools(ctx: Context, deps: ToolDeps) {
     },
   }))
 
-  register(defineTool({
+  register(harness.defineTool({
     name: 'aoci_unbind',
     description: '解绑项目：终止 aoci mcp 并注销对应工具。',
     parameters: { slug: { type: 'string', required: true, description: '项目 slug' } },
@@ -304,7 +305,7 @@ export function installTools(ctx: Context, deps: ToolDeps) {
   }))
 
   // ---------- 增量刷新（方向 1） ----------
-  register(defineTool({
+  register(harness.defineTool({
     name: 'aoci_refresh',
     description: '计算自上次维护基线以来的 git 变更集，并给出只维护受影响条目的分批指令（替代全量重建）。',
     parameters: {
@@ -324,7 +325,7 @@ export function installTools(ctx: Context, deps: ToolDeps) {
   }))
 
   // ---------- 构建进度（方向 1） ----------
-  register(defineTool({
+  register(harness.defineTool({
     name: 'aoci_build_status',
     description: '查看最近的索引构建/维护/验证运行记录与当前绑定状态。',
     parameters: { project: { type: 'string', description: '可选：只看某项目 slug' } },
@@ -340,7 +341,7 @@ export function installTools(ctx: Context, deps: ToolDeps) {
   }))
 
   // ---------- 审计（方向 4） ----------
-  register(defineTool({
+  register(harness.defineTool({
     name: 'aoci_audit',
     description: '生成治理审计报告：verify/check 结果、HEAD 与维护基线漂移、最近事件时间线。',
     parameters: { project: { type: 'string', required: true, description: '项目 slug' } },
@@ -364,7 +365,7 @@ export function installTools(ctx: Context, deps: ToolDeps) {
 
   // ---------- 紧凑查询（compact 模式）：合并 relations/impact/lineage/db ----------
   if (compact) {
-    register(defineTool({
+    register(harness.defineTool({
       name: 'aoci_query',
       description: 'AOCI 系统查询聚合：kind=relations|impact|lineage|db（impact 需 object；db 需 source）。',
       parameters: {
@@ -398,7 +399,7 @@ export function installTools(ctx: Context, deps: ToolDeps) {
 
   // ---------- 全量模式专用工具 ----------
   if (!compact) {
-    register(defineTool({
+    register(harness.defineTool({
       name: 'aoci_scan',
       description: '运行 aoci scan（建立/更新 Baseline）。',
       parameters: { project: { type: 'string', required: true, description: '项目 slug' } },
@@ -418,7 +419,7 @@ export function installTools(ctx: Context, deps: ToolDeps) {
         return out.stdout
       },
     }))
-    register(defineTool({
+    register(harness.defineTool({
       name: 'aoci_panel',
       description: '打开指定项目的 AOCI 只读面板（需启用 httpRoutes）。',
       parameters: { project: { type: 'string', required: true, description: '项目 slug' } },
@@ -427,7 +428,7 @@ export function installTools(ctx: Context, deps: ToolDeps) {
         try { deps.openPanel(args.project); return '已请求打开面板: ' + args.project } catch { return '打开面板失败（面板可能未启用）' }
       },
     }))
-    const sysQuery = (name: string, desc: string, sub: string) => register(defineTool({
+    const sysQuery = (name: string, desc: string, sub: string) => register(harness.defineTool({
       name, description: desc,
       parameters: { project: { type: 'string', required: true, description: '项目 slug' } },
       output: { schema: { type: 'string' }, render: (_a, v) => toolText(v) },
@@ -442,7 +443,7 @@ export function installTools(ctx: Context, deps: ToolDeps) {
     }))
     sysQuery('aoci_relations', '项目依赖关系投影（cognition system relations）。', 'relations')
     sysQuery('aoci_lineage', '索引对象来源与证据绑定链（cognition system lineage）。', 'lineage')
-    register(defineTool({
+    register(harness.defineTool({
       name: 'aoci_impact',
       description: '沿正式 R 关系找出数据库对象变更可能触达的代码对象（cognition system impact）。',
       parameters: {
@@ -459,7 +460,7 @@ export function installTools(ctx: Context, deps: ToolDeps) {
         return out.text
       },
     }))
-    register(defineTool({
+    register(harness.defineTool({
       name: 'aoci_db',
       description: '数据库数据源只读预检（database source access --json）。',
       parameters: { project: { type: 'string', required: true, description: '项目 slug' }, source: { type: 'string', required: true, description: '数据源 sourceId' } },
