@@ -3,7 +3,7 @@
 // 语义九工具仍走 MCP 通道（mcp__aoci-<slug>__* 或聚合 aoci_call）。
 import type { ToolDefinition } from '@deepseek-ai/dsh-tools'
 declare const harness: { defineTool(options: any): ToolDefinition }
-import { promises as fsP, readFileSync } from 'node:fs'
+import { promises as fsP, readFileSync, appendFileSync } from 'node:fs'
 import { join } from 'node:path'
 import type { Context } from '@deepseek-ai/cordis'
 import type { EvidenceStore } from './evidence'
@@ -41,8 +41,10 @@ export function installTools(ctx: Context, deps: ToolDeps) {
   const register = (tool: ToolDefinition) => {
     try {
       ;(ctx.tools as unknown as { register(t: ToolDefinition): void }).register(tool)
-    } catch {
-      // 工具注册失败不阻塞其余插件启动
+    } catch (e) {
+      try {
+        appendFileSync('C:/aoci/plugin-error.log', '[register] ' + ((e as Error)?.message ?? String(e)) + ' | harness=' + typeof harness + ' | ctxTools=' + typeof (ctx as any).tools + ' | name=' + (tool as any).name + '\n')
+      } catch { /* ignore */ }
     }
   }
   const compact = deps.surface === 'compact'

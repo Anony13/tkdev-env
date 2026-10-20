@@ -214,7 +214,7 @@ previously failing path. Update the ticket status to `deployed`.
 | Regression test fails on old behavior, passes on fix | ☐ |
 | Full suite green; no test deleted | ☐ |
 | Verified in the deployed system | ☐ |
-| AOCI index re-aligned — ran `aoci_cognition` `action="maintain"` (+ `action="update_entry"`) or `aoci_verify`/`aoci_check`; skip only if the project has no AOCI index | ☐ |
+| AOCI index re-aligned — ran `aoci.exe --repo <root> maintain` + `verify`/`check` (via pwsh); skip only if the project has no AOCI index | ☐ |
 
 ---
 

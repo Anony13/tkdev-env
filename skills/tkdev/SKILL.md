@@ -335,28 +335,35 @@ is the "global vision" step; it matters most for `/tkdev-implement`,
 
 Detect and load it (either surface is enough):
 
-1. **dsh-aoci tools (preferred)** — if `aoci_cognition` (or the `/aoci` slash
-   command) is available, load the map:
-   - If the repo is not yet bound, run `/aoci <repo path>` first (or
-     `aoci_use <repo path>`).
-   - Then call `aoci_cognition` with `action="overview"` and follow `next_cursor`
-     to `completed=true`. This delivers the full governed cognition.
-2. **Plain-text index (fallback)** — else if `aoci.txt` exists in the repo root,
-   read `aoci.txt` (Root manifest), then `aoci.code.txt` (the code cognition map),
-   then `aoci.database.txt` (table cognition, optional). Same map in file form.
+1. **Plain-text index (primary)** — if `aoci.txt` exists in the repo root, read
+   `aoci.txt` (Root manifest), then `aoci.code.txt` (the code cognition map),
+   then `aoci.database.txt` (table cognition, optional). This is the governed map
+   in file form — the reliable path.
+2. **dsh-aoci tools (optional)** — if the native tools (`aoci_cognition`, `/aoci`)
+   are actually present in the model's function set, they give a paginated view of
+   the same map. NOTE: as of DSH 0.2.1-rc.2 the sandbox does not inject externally
+   registered tools into the model, so prefer path 1.
 
 If neither is present, skip silently (the project has not been AOCI-indexed yet).
 
 **Surface AOCI explicitly to the user** — never keep it silent:
 - On load: say one line, e.g. `🔍 AOCI：已加载全局认知（共 N 条）`.
 - On re-align: say one line, e.g. `🔄 AOCI：地图已重对齐（更新 N 条）`.
-- Name the tool used (`/aoci` / `aoci_cognition` / `aoci_verify` / `aoci_check`)
-  so the user can see which command actually ran.
+- Name the surface used (read `aoci.code.txt` / `aoci verify` / `aoci check` /
+  `aoci_cognition`) so the user can see which command actually ran.
 
 Treat the index as a **map/prior, not a substitute** for reading actual source
 before a concrete change. After code changes the cognition may drift; before
-checkpointing, re-align it via `aoci_cognition` `action="maintain"` (+
-`action="update_entry"`) and `aoci_verify` / `aoci_check`, whichever is available.
+checkpointing, re-align it via the aoci CLI (through `pwsh`):
+
+```powershell
+C:\aoci\bin\aoci.exe --repo <repo root> maintain   # issue Missing/Stale entries, write FRAS
+C:\aoci\bin\aoci.exe --repo <repo root> verify      # governance gate
+C:\aoci\bin\aoci.exe --repo <repo root> check       # drift / alignment check
+```
+
+(Or `aoci_cognition` `action="maintain"` + `aoci_verify`/`aoci_check` if the
+native tools are actually available.)
 
 ---
 
